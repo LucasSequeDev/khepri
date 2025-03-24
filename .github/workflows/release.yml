@@ -1,0 +1,30 @@
+name: Publish to npm
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js con npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org/"
+          always-auth: true
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Construir el paquete
+        run: npm run build
+
+      - name: Publicar en npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
