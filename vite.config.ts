@@ -1,7 +1,6 @@
 import { dirname, extname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { glob } from "glob";
 import { defineConfig } from "vite";
@@ -20,8 +19,11 @@ const inputs = glob
 export default defineConfig({
   plugins: [
     react(),
-    dts({ include: ["lib"], tsconfigPath: "./tsconfig.build.json" }),
-    tailwindcss(),
+    dts({
+      include: ["lib"],
+      tsconfigPath: "./tsconfig.build.json",
+      outDir: "dist",
+    }),
   ],
   test: {
     globals: true,
