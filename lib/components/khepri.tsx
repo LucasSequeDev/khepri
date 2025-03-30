@@ -7,6 +7,7 @@ interface KhepriProps {
   componentsMap: ComponentsMap;
   schema: Schema[];
   submit?: Submit<unknown>;
+  verbose?: boolean;
 }
 
 type SetValue = (
@@ -24,7 +25,21 @@ interface KhepriFactoryProps extends KhepriProps {
   state: State;
 }
 
+const log = () => {
+  return (verbose: boolean, ...args: unknown[]) => {
+    if (verbose) {
+      console.log(...args);
+    }
+  };
+};
+
+const verboseLog = log();
+
 export const Khepri = (props: KhepriProps) => {
+  const { verbose = false } = props;
+
+  verboseLog(verbose, "Khepri component initialized");
+
   const [state, setState] = useState<State>(() => {
     const initialState: State = {};
 
@@ -103,12 +118,14 @@ export const Khepri = (props: KhepriProps) => {
     };
 
     initializeState(props.schema);
+    verboseLog(verbose, "Initial state:", initialState);
     return initialState;
   }); // Revisar esta parte con zustand?
 
   const setValue: SetValue = (value, key) => {
     if (!key) return;
 
+    verboseLog(verbose, "Setting value:", key, value);
     setState((prevState) => ({
       ...prevState,
       [key]: value,
@@ -125,6 +142,8 @@ export const Khepri = (props: KhepriProps) => {
 };
 
 const KhepriFactory = (props: KhepriFactoryProps) => {
+  const { verbose = false } = props;
+  verboseLog(verbose, "KhepriFactory component initialized");
   return (
     <Fragment>
       {props.schema.map((schema, index) => (
@@ -134,6 +153,7 @@ const KhepriFactory = (props: KhepriFactoryProps) => {
           state={props.state}
         >
           {(() => {
+            verboseLog(verbose, "Rendering schema:", schema);
             switch (schema.type) {
               case "input": {
                 const Component = props.componentsMap[schema.type];
