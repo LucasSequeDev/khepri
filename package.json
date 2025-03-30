@@ -1,7 +1,7 @@
 {
   "name": "@lucassequedev/khepri",
   "private": false,
-  "version": "0.0.1-canary-3",
+  "version": "0.0.1-canary-4",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist/lib/main.d.ts",

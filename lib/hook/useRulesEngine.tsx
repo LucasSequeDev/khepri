@@ -22,6 +22,7 @@ export const useRulesEngine = (
     });
 
     engine.run(state).then(({ events }) => {
+      console.log("events", events);
       setCanRender(events.length > 0);
     });
   }, [conditions, state]);

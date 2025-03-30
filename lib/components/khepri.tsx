@@ -258,6 +258,7 @@ const KhepriFactory = (props: KhepriFactoryProps) => {
                       componentsMap={props.componentsMap}
                       setValue={props.setValue}
                       state={props.state}
+                      verbose={props.verbose}
                     />
                   </Component>
                 );
